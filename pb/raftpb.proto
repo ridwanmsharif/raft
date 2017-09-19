@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package rpc;
+
+// Defining the gRPC service
+service Raft {
+  //  Request Vote RPC for candidates
+  rpc RequestVote(RequestVoteReq) returns (RequestVoteResp) {}
+
+  // Append Entry RPC for replicating log entry in followers
+  rpc AppendEntry(AppendEntryReq) returns (AppendEntryResp) {}
+
+  // Install Snapshot RPC for replicating statemachine from snapshot and truncating log
+  rpc InstallSnapshpot(InstallSnapshotReq) returns (InstallSnapshotResp) {}
+}
+
+// Define a Log Entry
+message LogEntry {
+  bytes key = 1;
+  bytes val = 2;
+}
+
+// Request Vote Request
+message RequestVoteReq {
+  int64 term = 1;
+  int64 candidateId = 2;
+  int64 lastLogIndex = 3;
+  int64 lastLogTerm = 4;
+}
+
+// Request Vote Response
+message RequestVoteResp {
+  int64 term = 1;
+  bool voteGranted = 2;
+}
+
+// Append Entry Request
+message AppendEntryReq {
+  int64 term = 1;
+  int64 leaderId = 2;
+  int64 prevLogIndex = 3;
+  int64 prevLogTerm = 4;
+  repeated LogEntry entries = 5;
+  int64 leaderCommit = 6;
+}
+
+// Append Entry Response
+message AppendEntryResp {
+  int64 term = 1;
+  bool success = 2;
+}
+
+// Install Snapshot Request
+message InstallSnapshotReq {
+  int64 term = 1;
+  int64 leaderId = 2;
+  int64 lastIncludedIndex = 3;
+  int64 lastIncludedterm = 4;
+  bytes offset = 5;
+  repeated bytes data = 6;
+  bool done = 7;
+}
+
+// Install Snapshot Response
+message InstallSnapshotResp {
+  int64 term = 1;
+}
+
