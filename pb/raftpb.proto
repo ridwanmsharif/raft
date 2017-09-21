@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package rpc;
+package pb;
 
 // Defining the gRPC service
 service Raft {
@@ -16,8 +16,10 @@ service Raft {
 
 // Define a Log Entry
 message LogEntry {
-  bytes key = 1;
-  bytes val = 2;
+  bytes Key = 1;
+  bytes Val = 2;
+  int64 Index = 3;
+  int64 Term = 4;
 }
 
 // Request Vote Request
@@ -66,3 +68,17 @@ message InstallSnapshotResp {
   int64 term = 1;
 }
 
+// Different trypes of messages raft can send (More to be added as progress is made)
+enum MessageType {
+  AppendReq     =   0;
+  AppendResp    =   1;
+  VoteReq       =   2;
+  VoteResp      =   3;
+  Other         =   4;
+}
+
+// Defines a raft Message
+message Message {
+  MessageType type = 1;
+  int64 term = 2;
+}
