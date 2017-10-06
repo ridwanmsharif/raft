@@ -33,6 +33,9 @@ type Storage interface {
 	// into the latest Snapshot; if storage only contains the dummy entry the
 	// first log entry is not available).
 	FirstIndex() (int64, error)
+
+	// Append entries
+	Append([]pb.LogEntry) error
 }
 
 // MemoryStorage implements the Storage interface backed by an
@@ -159,8 +162,7 @@ func (ds *DefaultStorage) Append(entries []pb.LogEntry) error {
 		ds.entries = append(ds.entries, entries...)
 	default:
 		ds.entries = ds.entries
-		//	raftLogger.Panicf("missing log entry [last: %d, append at: %d]",
-		//		ds.lastIndex(), entries[0].Index)
+		log.Panicf("missing log entry [last: %d, append at: %d]", ds.lastIndex(), entries[0].Index)
 	}
 	return nil
 }
