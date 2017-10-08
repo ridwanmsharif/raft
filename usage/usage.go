@@ -13,5 +13,7 @@ func main() {
 	storage := raft.NewStorage()
 	c := raft.Config{1, a, 2, 1, storage, 1, log.New(os.Stdout, "Log: ", 2)}
 	fmt.Println(c.Validate())
-	fmt.Println("vim-go")
+	p := []raft.Peer{}
+	n := raft.StartNode(&c, p)
+	n.Stop()
 }

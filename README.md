@@ -7,7 +7,9 @@ Written primarily in Go, it uses protocol buffers with gRPC for the underlying R
 
 ## Disclaimer
 
-Purely experimental project. Designed for learning purposes not production use. Based on [research paper](https://raft.github.io/raft.pdf) Diego Ongaro et. al. Also inspired by [CoreOS/etcd/raft](github.com/coreos/raft). Improve functionality at will.
+Purely experimental project. Designed for learning purposes not production use. 
+Based on [research paper](https://raft.github.io/raft.pdf) Diego Ongaro et. al. 
+Also inspired heavily by CoreOS's implementation: [coreos/etcd/raft](github.com/coreos/raft). Improve functionality at will.
 
 ## Contributing
 

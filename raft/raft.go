@@ -139,6 +139,8 @@ type raft struct {
 	logger Logger
 }
 
+func (r *raft) hasLeader() bool { return r.lead != 0 }
+
 func newRaft(c *Config) *raft {
 	// Check if config is valid
 	if err := c.Validate(); err != nil {
