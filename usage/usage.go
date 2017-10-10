@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/ridwanmsharif/raft/raft"
 )
@@ -15,5 +16,17 @@ func main() {
 	fmt.Println(c.Validate())
 	p := []raft.Peer{}
 	n := raft.StartNode(&c, p)
-	n.Stop()
+	Ticker := time.NewTicker(1 * time.Second)
+	done := time.NewTicker(50 * time.Second)
+	for {
+		select {
+		case <-Ticker.C:
+			n.Tick()
+		case _ = <-n.Ready():
+			log.Printf("ready")
+		case <-done.C:
+			n.Stop()
+			return
+		}
+	}
 }
